@@ -1,0 +1,5 @@
+{
+  "name": "WireGuard Connect Simulator",
+  "description": "A web application to simulate a WireGuard VPN connection. It can generate a mock configuration, simulate connecting and disconnecting from an interface, and test a local connection.",
+  "requestFramePermissions": []
+}
