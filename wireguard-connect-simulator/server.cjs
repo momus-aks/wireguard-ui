@@ -300,7 +300,7 @@ app.get('/api/stats/:machine', async (req, res) => {
       let lastHandshake = 'Unknown';
       
       try {
-        const { stdout: procOutput } = await execAsync(`cat /proc/net/dev | grep " ${interfaceName}:"`);
+        const { stdout: procOutput } = await execAsync(`cat /proc/net/dev | grep -E "(^|\\\\s)${interfaceName}:"`);
         // Format: interface: bytes_rx packets_rx errs drop ... bytes_tx packets_tx ...
         // Remove interface name and colon, then split
         const line = procOutput.trim();

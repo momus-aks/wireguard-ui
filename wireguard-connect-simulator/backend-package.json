@@ -1,0 +1,14 @@
+{
+  "name": "wireguard-backend",
+  "version": "1.0.0",
+  "description": "Backend server for WireGuard controller",
+  "main": "server.cjs",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}
+

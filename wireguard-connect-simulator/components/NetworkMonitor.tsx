@@ -68,7 +68,7 @@ const NetworkMonitor: React.FC<NetworkMonitorProps> = ({ status, machine }) => {
           setHistory(prev => {
             const newHistory = [...prev, Math.max(0, data.transferRate || 0)];
             const sliced = newHistory.slice(-maxHistory);
-            setPeakRate(prevPeak => Math.max(prevPeak, ...sliced));
+            setPeakRate(Math.max(...sliced, 0));
             return sliced;
           });
 
@@ -91,7 +91,7 @@ const NetworkMonitor: React.FC<NetworkMonitorProps> = ({ status, machine }) => {
           setHistory(prev => {
             const newHistory = [...prev, simulatedRate];
             const sliced = newHistory.slice(-maxHistory);
-            setPeakRate(prevPeak => Math.max(prevPeak, ...sliced));
+            setPeakRate(Math.max(...sliced, 0));
             return sliced;
           });
         }

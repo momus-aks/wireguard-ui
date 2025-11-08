@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/wireguard-connect-simulator":{"mount_options":["dmode=775","fmode=775","uid=1000","gid=1000","_netdev"],"rsync__exclude":[".git/"],"guestpath":"/home/vagrant/wireguard-connect-simulator","hostpath":"/home/adrin/aks/wireguard-connect-simulator","disabled":false,"__vagrantfile":true}}}

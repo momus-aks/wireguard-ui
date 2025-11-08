@@ -29,39 +29,32 @@ function generateKeyPair(): { privateKey: string; publicKey: string } {
   return { privateKey, publicKey };
 }
 
+export interface GeneratedConfigs {
+  configA: string;
+  configB: string;
+  peerA_IP: string;
+  peerB_IP: string;
+  usedPlaceholderKeys: boolean;
+}
+
 export async function generatePeerConfigs(options?: {
   machineA_IP?: string;
   machineB_IP?: string;
   useLocalhost?: boolean;
-}): Promise<{ 
-  configA: string; 
-  configB: string; 
-  peerA_IP: string; 
-  peerB_IP: string; 
-}> {
+}): Promise<GeneratedConfigs> {
   // Generate valid WireGuard key pairs using backend (wg genkey/wg pubkey)
   let peerAKeys, peerBKeys;
+  let usedPlaceholderKeys = false;
   try {
-    const response = await fetch('http://localhost:3001/api/generate-keys', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    if (response.ok) {
-      const keys = await response.json();
-      peerAKeys = keys.peerA;
-      peerBKeys = keys.peerB;
-    } else {
-      // Fallback to random keys if backend fails
-      console.warn('Backend key generation failed, using placeholder keys');
-      peerAKeys = generateKeyPair();
-      peerBKeys = generateKeyPair();
-    }
+    const { generateWireGuardKeyPairs } = await import('../apiService');
+    const keys = await generateWireGuardKeyPairs();
+    peerAKeys = keys.peerA;
+    peerBKeys = keys.peerB;
   } catch (error) {
-    // Fallback to random keys if backend unavailable
-    console.warn('Backend unavailable, using placeholder keys');
+    console.warn('Backend unavailable or key generation failed, using placeholder keys');
     peerAKeys = generateKeyPair();
     peerBKeys = generateKeyPair();
+    usedPlaceholderKeys = true;
   }
   
   // Assign IPs from 10.0.8.0/24 range
@@ -107,5 +100,6 @@ PersistentKeepalive = 25
     configB,
     peerA_IP,
     peerB_IP,
+    usedPlaceholderKeys,
   };
 }
